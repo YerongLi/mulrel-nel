@@ -148,12 +148,13 @@ class MulRelRanker(LocalCtxAttRanker):
             if self.oracle:
                 tmp = Variable(torch.zeros(1, 1).cuda().long())
                 gold = torch.cat([gold, tmp], dim=0)
-        print(local_ent_scores)
+        # print(local_ent_scores)
         if self.use_local_only:
             inputs = torch.cat([Variable(torch.zeros(n_ments * n_cands, 1).cuda()),
                                 local_ent_scores.view(n_ments * n_cands, -1),
                                 torch.log(p_e_m + 1e-20).view(n_ments * n_cands, -1)], dim=1)
             scores = self.score_combine(inputs).view(n_ments, n_cands)
+            print(scores.size())
             return scores
 
         if n_ments == 1:
