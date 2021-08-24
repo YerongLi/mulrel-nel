@@ -149,7 +149,8 @@ class MulRelRanker(LocalCtxAttRanker):
                 tmp = Variable(torch.zeros(1, 1).cuda().long())
                 gold = torch.cat([gold, tmp], dim=0)
         # print(local_ent_scores)
-        if self.use_local_only:
+        # if self.use_local_only:
+        if True:
             inputs = torch.cat([Variable(torch.zeros(n_ments * n_cands, 1).cuda()),
                                 local_ent_scores.view(n_ments * n_cands, -1),
                                 torch.log(p_e_m + 1e-20).view(n_ments * n_cands, -1)], dim=1)
