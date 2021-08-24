@@ -47,7 +47,7 @@ class MulRelRanker(LocalCtxAttRanker):
         self.use_stargmax = config.get('use_stargmax', False)
 
         self.use_local = config.get('use_local', False)
-        self.use_local_only = config.get('use_local_only', False)
+        self.use_local_only = config.get('use_local_only', True)
         self.freeze_local = config.get('freeze_local', False)
 
         if self.freeze_local:
