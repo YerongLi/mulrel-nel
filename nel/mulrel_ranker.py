@@ -47,7 +47,7 @@ class MulRelRanker(LocalCtxAttRanker):
         self.use_stargmax = config.get('use_stargmax', False)
 
         self.use_local = config.get('use_local', False)
-        self.use_local_only = config.get('use_local_only', True)
+        self.use_local_only = config.get('use_local_only', False)
         self.freeze_local = config.get('freeze_local', False)
 
         if self.freeze_local:
@@ -148,14 +148,12 @@ class MulRelRanker(LocalCtxAttRanker):
             if self.oracle:
                 tmp = Variable(torch.zeros(1, 1).cuda().long())
                 gold = torch.cat([gold, tmp], dim=0)
-        # print(local_ent_scores)
-        # if self.use_local_only:
-        if True:
+
+        if self.use_local_only:
             inputs = torch.cat([Variable(torch.zeros(n_ments * n_cands, 1).cuda()),
                                 local_ent_scores.view(n_ments * n_cands, -1),
                                 torch.log(p_e_m + 1e-20).view(n_ments * n_cands, -1)], dim=1)
             scores = self.score_combine(inputs).view(n_ments, n_cands)
-            print(scores.size())
             return scores
 
         if n_ments == 1:
